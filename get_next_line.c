@@ -6,7 +6,7 @@
 /*   By: mgould <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 19:26:56 by mgould            #+#    #+#             */
-/*   Updated: 2016/12/28 20:06:54 by mgould           ###   ########.fr       */
+/*   Updated: 2016/12/28 20:46:18 by mgould           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,10 @@ int			is_nl(void **rest, int *rm, void **gline, int *counter)
 			ft_memdel(rest);
 		return (1);
 	}
-	else
-	{
-		*gline = ft_memjoin(*gline, *counter, *rest, *rm);
-		*counter += *rm;
-		ft_memdel(rest);
-		return (0);
-	}
+	*gline = ft_memjoin(*gline, *counter, *rest, *rm);
+	*counter += *rm;
+	ft_memdel(rest);
+	return (0);
 }
 
 t_list_1	*lst_fd(void *rest, int rm, int fd)
@@ -130,7 +127,8 @@ int			get_next_line(const int fd, char **line)
 	unsigned char		tmp[BUFF_SIZE];
 	void				*gline;
 
-	ft_bzero(tmp, BUFF_SIZE);
+	if ((fd < 0) || !(line))
+		return (-1);
 	if (!(pl))
 		pl = lst_fd(NULL, 0, fd);
 	l = get_right_list(pl, fd);
